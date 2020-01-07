@@ -73,15 +73,18 @@ import type {Record} from './RelayStoreTypes';
  *      manual 0.00110 0.00123 0.00008
  */
 
+opaque type RecordImpl = {[key: string]: mixed, ...};
+
 /**
  * @public
  *
  * Clone a record.
  */
 function clone(record: Record): Record {
-  return {
-    ...record,
-  };
+  const r = ((record: any): RecordImpl);
+  return (({
+    ...r,
+  }: any): Record);
 }
 
 /**
@@ -94,7 +97,9 @@ function clone(record: Record): Record {
  * copied by reference and not value; callers should ensure that values are
  * copied on write.
  */
-function copyFields(source: Record, sink: Record): void {
+function copyFields(sourceOriginal: Record, sinkOriginal: Record): void {
+  const source = ((sourceOriginal: any): RecordImpl);
+  const sink = ((sinkOriginal: any): RecordImpl);
   for (const key in source) {
     if (source.hasOwnProperty(key)) {
       if (key !== ID_KEY && key !== TYPENAME_KEY) {
@@ -111,10 +116,10 @@ function copyFields(source: Record, sink: Record): void {
  */
 function create(dataID: DataID, typeName: string): Record {
   // See perf note above for why we aren't using computed property access.
-  const record = {};
+  const record: RecordImpl = {};
   record[ID_KEY] = dataID;
   record[TYPENAME_KEY] = typeName;
-  return record;
+  return ((record: any): Record);
 }
 
 /**
@@ -123,7 +128,8 @@ function create(dataID: DataID, typeName: string): Record {
  * Get the record's `id` if available or the client-generated identifier.
  */
 function getDataID(record: Record): DataID {
-  return (record[ID_KEY]: any);
+  const r = ((record: any): RecordImpl);
+  return (r[ID_KEY]: any);
 }
 
 /**
@@ -132,7 +138,8 @@ function getDataID(record: Record): DataID {
  * Get the concrete type of the record.
  */
 function getType(record: Record): string {
-  return (record[TYPENAME_KEY]: any);
+  const r = ((record: any): RecordImpl);
+  return (r[TYPENAME_KEY]: any);
 }
 
 /**
@@ -140,7 +147,8 @@ function getType(record: Record): string {
  *
  * Get a scalar (non-link) field value.
  */
-function getValue(record: Record, storageKey: string): mixed {
+function getValue(r: Record, storageKey: string): mixed {
+  const record = ((r: any): RecordImpl);
   const value = record[storageKey];
   if (value && typeof value === 'object') {
     invariant(
@@ -163,7 +171,8 @@ function getValue(record: Record, storageKey: string): mixed {
  * Get the value of a field as a reference to another record. Throws if the
  * field has a different type.
  */
-function getLinkedRecordID(record: Record, storageKey: string): ?DataID {
+function getLinkedRecordID(r: Record, storageKey: string): ?DataID {
+  const record = ((r: any): RecordImpl);
   const link = record[storageKey];
   if (link == null) {
     return link;
@@ -185,10 +194,8 @@ function getLinkedRecordID(record: Record, storageKey: string): ?DataID {
  * Get the value of a field as a list of references to other records. Throws if
  * the field has a different type.
  */
-function getLinkedRecordIDs(
-  record: Record,
-  storageKey: string,
-): ?Array<?DataID> {
+function getLinkedRecordIDs(r: Record, storageKey: string): ?Array<?DataID> {
+  const record = ((r: any): RecordImpl);
   const links = record[storageKey];
   if (links == null) {
     return links;
@@ -211,7 +218,8 @@ function getLinkedRecordIDs(
  * Returns the epoch at which the record was invalidated, if it
  * ever was; otherwise returns null;
  */
-function getInvalidationEpoch(record: ?Record): ?number {
+function getInvalidationEpoch(r: ?Record): ?number {
+  const record = ((r: any): ?RecordImpl);
   if (record == null) {
     return null;
   }
@@ -231,10 +239,12 @@ function getInvalidationEpoch(record: ?Record): ?number {
  * previous record if all fields are equal or a new record (with merged fields)
  * if any fields have changed.
  */
-function update(prevRecord: Record, nextRecord: Record): Record {
+function update(prevR: Record, nextR: Record): Record {
+  const prevRecord = ((prevR: any): RecordImpl);
+  const nextRecord = ((nextR: any): RecordImpl);
   if (__DEV__) {
-    const prevID = getDataID(prevRecord);
-    const nextID = getDataID(nextRecord);
+    const prevID = getDataID(prevR);
+    const nextID = getDataID(nextR);
     warning(
       prevID === nextID,
       'RelayModernRecord: Invalid record update, expected both versions of ' +
@@ -243,8 +253,8 @@ function update(prevRecord: Record, nextRecord: Record): Record {
       nextID,
     );
     // note: coalesce null/undefined to null
-    const prevType = getType(prevRecord) ?? null;
-    const nextType = getType(nextRecord) ?? null;
+    const prevType = getType(prevR) ?? null;
+    const nextType = getType(nextR) ?? null;
     warning(
       isClientID(nextID) || prevType === nextType,
       'RelayModernRecord: Invalid record update, expected both versions of ' +
@@ -257,7 +267,7 @@ function update(prevRecord: Record, nextRecord: Record): Record {
       nextType,
     );
   }
-  let updated: Record | null = null;
+  let updated: RecordImpl | null = null;
   const keys = Object.keys(nextRecord);
   for (let ii = 0; ii < keys.length; ii++) {
     const key = keys[ii];
@@ -266,7 +276,7 @@ function update(prevRecord: Record, nextRecord: Record): Record {
       updated[key] = nextRecord[key];
     }
   }
-  return updated !== null ? updated : prevRecord;
+  return (((updated !== null ? updated : prevRecord): any): Record);
 }
 
 /**
@@ -275,10 +285,12 @@ function update(prevRecord: Record, nextRecord: Record): Record {
  * Returns a new record with the contents of the given records. Fields in the
  * second record will overwrite identical fields in the first record.
  */
-function merge(record1: Record, record2: Record): Record {
+function merge(r1: Record, r2: Record): Record {
+  const record1 = ((r1: any): RecordImpl);
+  const record2 = ((r2: any): RecordImpl);
   if (__DEV__) {
-    const prevID = getDataID(record1);
-    const nextID = getDataID(record2);
+    const prevID = getDataID(r1);
+    const nextID = getDataID(r2);
     warning(
       prevID === nextID,
       'RelayModernRecord: Invalid record merge, expected both versions of ' +
@@ -287,8 +299,8 @@ function merge(record1: Record, record2: Record): Record {
       nextID,
     );
     // note: coalesce null/undefined to null
-    const prevType = getType(record1) ?? null;
-    const nextType = getType(record2) ?? null;
+    const prevType = getType(r1) ?? null;
+    const nextType = getType(r2) ?? null;
     warning(
       isClientID(nextID) || prevType === nextType,
       'RelayModernRecord: Invalid record merge, expected both versions of ' +
@@ -301,7 +313,7 @@ function merge(record1: Record, record2: Record): Record {
       nextType,
     );
   }
-  return Object.assign({}, record1, record2);
+  return (Object.assign({}, record1, record2): Record);
 }
 
 /**
@@ -311,7 +323,7 @@ function merge(record1: Record, record2: Record): Record {
  * frozen record will fatal at runtime.
  */
 function freeze(record: Record): void {
-  deepFreeze(record);
+  deepFreeze(((record: any): RecordImpl));
 }
 
 /**
@@ -319,9 +331,10 @@ function freeze(record: Record): void {
  *
  * Set the value of a storageKey to a scalar.
  */
-function setValue(record: Record, storageKey: string, value: mixed): void {
+function setValue(r: Record, storageKey: string, value: mixed): void {
+  const record = ((r: any): RecordImpl);
   if (__DEV__) {
-    const prevID = getDataID(record);
+    const prevID = getDataID(r);
     if (storageKey === ID_KEY) {
       warning(
         prevID === value,
@@ -332,10 +345,10 @@ function setValue(record: Record, storageKey: string, value: mixed): void {
       );
     } else if (storageKey === TYPENAME_KEY) {
       // note: coalesce null/undefined to null
-      const prevType = getType(record) ?? null;
+      const prevType = getType(r) ?? null;
       const nextType = value ?? null;
       warning(
-        isClientID(getDataID(record)) || prevType === nextType,
+        isClientID(getDataID(r)) || prevType === nextType,
         'RelayModernRecord: Invalid field update, expected both versions of ' +
           'record `%s` to have the same `%s` but got conflicting types `%s` ' +
           'and `%s`. The GraphQL server likely violated the globally unique ' +
@@ -356,12 +369,13 @@ function setValue(record: Record, storageKey: string, value: mixed): void {
  * Set the value of a field to a reference to another record.
  */
 function setLinkedRecordID(
-  record: Record,
+  r: Record,
   storageKey: string,
   linkedID: DataID,
 ): void {
+  const record = ((r: any): RecordImpl);
   // See perf note above for why we aren't using computed property access.
-  const link = {};
+  const link: RecordImpl = {};
   link[REF_KEY] = linkedID;
   record[storageKey] = link;
 }
@@ -372,10 +386,11 @@ function setLinkedRecordID(
  * Set the value of a field to a list of references other records.
  */
 function setLinkedRecordIDs(
-  record: Record,
+  r: Record,
   storageKey: string,
   linkedIDs: Array<?DataID>,
 ): void {
+  const record = ((r: any): RecordImpl);
   // See perf note above for why we aren't using computed property access.
   const links = {};
   links[REFS_KEY] = linkedIDs;

@@ -56,7 +56,7 @@ export type OperationTracker = RelayOperationTracker;
 /*
  * An individual cached graph object.
  */
-export type Record = {[key: string]: mixed, ...};
+export opaque type Record = {[key: string]: mixed, ...};
 
 /**
  * A collection of records keyed by id.
