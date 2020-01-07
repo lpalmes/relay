@@ -25,11 +25,9 @@ describe('RelayModernRecord', () => {
 
   describe('clone', () => {
     it('returns a shallow copy of the record', () => {
-      const record = {
-        [ID_KEY]: '4',
-        name: 'Mark',
-        pet: {[REF_KEY]: 'beast'},
-      };
+      const record = RelayModernRecord.create('4', 'User');
+      RelayModernRecord.setValue(record, 'name', 'Mark');
+      RelayModernRecord.setLinkedRecordID(record, 'pet', 'beast');
       const clone = RelayModernRecord.clone(record);
       expect(clone).toEqual(record);
       expect(clone).not.toBe(record);
@@ -69,17 +67,15 @@ describe('RelayModernRecord', () => {
     let record;
 
     beforeEach(() => {
-      record = {
-        [ID_KEY]: 4,
-        name: 'Mark',
-        enemies: null,
-        hometown: {
-          [REF_KEY]: 'mpk',
-        },
-        'friends{"first":10}': {
-          [REFS_KEY]: ['beast', 'greg', null],
-        },
-      };
+      record = RelayModernRecord.create(4, 'User');
+      RelayModernRecord.setValue(record, 'name', 'Mark');
+      RelayModernRecord.setValue(record, 'enemies', null);
+      RelayModernRecord.setLinkedRecordID(record, 'hometown', 'mpk');
+      RelayModernRecord.setLinkedRecordIDs(record, 'friends{"first":10}', [
+        'beast',
+        'greg',
+        null,
+      ]);
     });
 
     it('returns undefined when the link is unknown', () => {
@@ -121,9 +117,7 @@ describe('RelayModernRecord', () => {
 
   describe('setLinkedRecordID()', () => {
     it('sets a link', () => {
-      const record = {
-        [ID_KEY]: '4',
-      };
+      const record = RelayModernRecord.create('4', 'User');
       RelayModernRecord.setLinkedRecordID(record, 'pet', 'beast');
       expect(RelayModernRecord.getLinkedRecordID(record, 'pet')).toBe('beast');
     });
@@ -131,9 +125,7 @@ describe('RelayModernRecord', () => {
 
   describe('setLinkedRecordIDs()', () => {
     it('sets an array of links', () => {
-      const record = {
-        [ID_KEY]: '4',
-      };
+      const record = RelayModernRecord.create('4', 'User');
       const storageKey = 'friends{"first":10}';
       RelayModernRecord.setLinkedRecordIDs(record, storageKey, [
         'beast',
@@ -152,21 +144,20 @@ describe('RelayModernRecord', () => {
     let record;
 
     beforeEach(() => {
-      record = {
-        [ID_KEY]: 4,
-        name: 'Mark',
-        blockbusterMembership: null,
-        hometown: {
-          [REF_KEY]: 'mpk',
-        },
-        'friends{"first":10}': {
-          [REFS_KEY]: ['beast', 'greg'],
-        },
-        favoriteColors: ['red', 'green', 'blue'],
-        other: {
-          customScalar: true,
-        },
-      };
+      record = RelayModernRecord.create(4, 'User');
+      RelayModernRecord.setValue(record, 'name', 'Mark');
+      RelayModernRecord.setValue(record, 'blockbusterMembership', null);
+      RelayModernRecord.setLinkedRecordID(record, 'hometown', 'mpk');
+      RelayModernRecord.setLinkedRecordIDs(record, 'friends{"first":10}', [
+        'beast',
+        'greg',
+      ]);
+      RelayModernRecord.setValue(record, 'favoriteColors', [
+        'red',
+        'green',
+        'blue',
+      ]);
+      RelayModernRecord.setValue(record, 'other', {customScalar: true});
     });
 
     it('returns a scalar value', () => {
@@ -238,11 +229,9 @@ describe('RelayModernRecord', () => {
       const updated = RelayModernRecord.update(prev, next);
       expect(updated).toBe(prev);
       expect(updated).not.toBe(next);
-      expect(updated).toEqual({
-        [ID_KEY]: '4',
-        [TYPENAME_KEY]: 'User',
-        name: 'Zuck',
-      });
+      const r = RelayModernRecord.create('4', 'User');
+      RelayModernRecord.setValue(r, 'name', 'Zuck');
+      expect(updated).toEqual(r);
     });
 
     it('returns a new record if there are changes', () => {
@@ -252,11 +241,9 @@ describe('RelayModernRecord', () => {
       const updated = RelayModernRecord.update(prev, next);
       expect(updated).not.toBe(prev);
       expect(updated).not.toBe(next);
-      expect(updated).toEqual({
-        [ID_KEY]: '4',
-        [TYPENAME_KEY]: 'User',
-        name: 'Zuck',
-      });
+      const r = RelayModernRecord.create('4', 'User');
+      RelayModernRecord.setValue(r, 'name', 'Zuck');
+      expect(updated).toEqual(r);
     });
 
     it('warns if __id does not match', () => {
@@ -303,11 +290,9 @@ describe('RelayModernRecord', () => {
       const updated = RelayModernRecord.merge(prev, next);
       expect(updated).not.toBe(prev);
       expect(updated).not.toBe(next);
-      expect(updated).toEqual({
-        [ID_KEY]: '4',
-        [TYPENAME_KEY]: 'User',
-        name: 'Zuck',
-      });
+      const r = RelayModernRecord.create('4', 'User');
+      RelayModernRecord.setValue(r, 'name', 'Zuck');
+      expect(updated).toEqual(r);
     });
 
     it('returns a new record if there are changes', () => {
@@ -317,11 +302,9 @@ describe('RelayModernRecord', () => {
       const updated = RelayModernRecord.merge(prev, next);
       expect(updated).not.toBe(prev);
       expect(updated).not.toBe(next);
-      expect(updated).toEqual({
-        [ID_KEY]: '4',
-        [TYPENAME_KEY]: 'User',
-        name: 'Zuck',
-      });
+      const r = RelayModernRecord.create('4', 'User');
+      RelayModernRecord.setValue(r, 'name', 'Zuck');
+      expect(updated).toEqual(r);
     });
 
     it('warns if __id does not match', () => {
