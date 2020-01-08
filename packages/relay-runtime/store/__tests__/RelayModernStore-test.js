@@ -17,6 +17,7 @@ const RelayModernRecord = require('../RelayModernRecord');
 const RelayModernStore = require('../RelayModernStore');
 const RelayOptimisticRecordSource = require('../RelayOptimisticRecordSource');
 const RelayRecordSourceMapImpl = require('../RelayRecordSourceMapImpl');
+const RelayRecordSource = require('../RelayRecordSource');
 
 const {getRequest} = require('../../query/GraphQLTag');
 const {
@@ -52,10 +53,10 @@ function assertIsDeeplyFrozen(value: ?{...} | ?$ReadOnlyArray<{...}>) {
 }
 
 [
-  [data => new RelayRecordSourceMapImpl(data), 'Map'],
+  [(data: any) => RelayRecordSource.fromJSON(data), 'Map'],
   [
-    data =>
-      RelayOptimisticRecordSource.create(new RelayRecordSourceMapImpl(data)),
+    (data: any) =>
+      RelayOptimisticRecordSource.create(RelayRecordSource.fromJSON(data)),
     'Optimistic',
   ],
 ].forEach(([getRecordSourceImplementation, ImplementationName]) => {

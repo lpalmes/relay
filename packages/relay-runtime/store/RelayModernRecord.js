@@ -27,7 +27,7 @@ const {
 } = require('./RelayStoreUtils');
 
 import type {DataID} from '../util/RelayRuntimeTypes';
-import type {Record} from './RelayStoreTypes';
+import type {Record, RecordObj} from './RelayStoreTypes';
 
 /**
  * @public
@@ -397,6 +397,14 @@ function setLinkedRecordIDs(
   record[storageKey] = links;
 }
 
+function fromObj(record: RecordObj): Record {
+  return ((record: any): Record);
+}
+
+function toObj(record: Record): RecordObj {
+  return ((record: any): RecordImpl);
+}
+
 module.exports = {
   clone,
   copyFields,
@@ -413,4 +421,6 @@ module.exports = {
   setLinkedRecordID,
   setLinkedRecordIDs,
   update,
+  fromObj,
+  toObj,
 };

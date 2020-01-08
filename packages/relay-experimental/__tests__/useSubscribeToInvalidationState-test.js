@@ -68,7 +68,7 @@ beforeEach(() => {
       'node(id:"5")': {__ref: '5'},
     },
   };
-  const source = new RecordSource(data);
+  const source = RecordSource.fromJSON(data);
   const store = new Store(source);
   ({UserQuery} = generateAndCompile(`
     fragment UserFragment on User {

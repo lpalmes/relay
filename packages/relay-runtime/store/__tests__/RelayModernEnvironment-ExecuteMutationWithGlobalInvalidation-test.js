@@ -94,7 +94,7 @@ describe('executeMutation() with global invalidation', () => {
         subject = sink;
       }),
     );
-    source = RelayRecordSource.create({
+    source = RelayRecordSource.fromJSON({
       'client:root': {
         __id: 'client:root',
         __typename: '__Root',

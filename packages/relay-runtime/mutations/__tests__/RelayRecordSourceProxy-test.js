@@ -16,6 +16,7 @@ const RelayRecordSourceMapImpl = require('../../store/RelayRecordSourceMapImpl')
 const RelayRecordSourceMutator = require('../RelayRecordSourceMutator');
 const RelayRecordSourceProxy = require('../RelayRecordSourceProxy');
 const RelayStoreUtils = require('../../store/RelayStoreUtils');
+const RelayRecordSource = require('../../store/RelayRecordSource');
 
 const defaultGetDataID = require('../../store/defaultGetDataID');
 
@@ -79,7 +80,7 @@ describe('RelayRecordSourceProxy', () => {
 
   beforeEach(() => {
     jest.resetModules();
-    baseSource = new RelayRecordSourceMapImpl(simpleClone(initialData));
+    baseSource = RelayRecordSource.fromJSON(simpleClone(initialData));
     sinkSource = new RelayRecordSourceMapImpl({});
     mutator = new RelayRecordSourceMutator(baseSource, sinkSource, []);
     store = new RelayRecordSourceProxy(mutator, defaultGetDataID);

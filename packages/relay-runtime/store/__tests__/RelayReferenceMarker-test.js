@@ -83,7 +83,7 @@ describe('RelayReferenceMarker', () => {
       },
     };
 
-    source = RelayRecordSource.create(data);
+    source = RelayRecordSource.fromJSON(data);
   });
 
   it('marks referenced records', () => {
@@ -196,7 +196,7 @@ describe('RelayReferenceMarker', () => {
         'node(id:"1")': {__ref: '1'},
       },
     };
-    source = RelayRecordSource.create(data);
+    source = RelayRecordSource.fromJSON(data);
     const {UserProfile} = generateAndCompile(
       `
       query UserProfile($id: ID!) {
@@ -298,7 +298,7 @@ describe('RelayReferenceMarker', () => {
         'node(id:"1")': {__ref: '1'},
       },
     };
-    source = RelayRecordSource.create(data);
+    source = RelayRecordSource.fromJSON(data);
     const {UserProfile} = generateAndCompile(
       `
       query UserProfile($id: ID!, $orderby: [String]) {
@@ -414,7 +414,7 @@ describe('RelayReferenceMarker', () => {
         'node(id:"1")': {__ref: '1'},
       },
     };
-    source = RelayRecordSource.create(data);
+    source = RelayRecordSource.fromJSON(data);
     const {FooQuery} = generateAndCompile(
       `
       query FooQuery($id: ID) {
@@ -567,7 +567,7 @@ describe('RelayReferenceMarker', () => {
           text: 'text',
         },
       };
-      source = RelayRecordSource.create(storeData);
+      source = RelayRecordSource.fromJSON(storeData);
       const references = new Set();
       mark(
         source,
@@ -620,7 +620,7 @@ describe('RelayReferenceMarker', () => {
           markup: '<markup/>',
         },
       };
-      source = RelayRecordSource.create(storeData);
+      source = RelayRecordSource.fromJSON(storeData);
       const references = new Set();
       mark(
         source,
@@ -666,7 +666,7 @@ describe('RelayReferenceMarker', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      source = RelayRecordSource.create(storeData);
+      source = RelayRecordSource.fromJSON(storeData);
       const references = new Set();
       mark(
         source,
@@ -722,7 +722,7 @@ describe('RelayReferenceMarker', () => {
           markup: '<markup/>',
         },
       };
-      source = RelayRecordSource.create(storeData);
+      source = RelayRecordSource.fromJSON(storeData);
       const references = new Set();
       mark(
         source,
@@ -767,7 +767,7 @@ describe('RelayReferenceMarker', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      source = RelayRecordSource.create(storeData);
+      source = RelayRecordSource.fromJSON(storeData);
       const references = new Set();
       mark(
         source,
@@ -809,7 +809,7 @@ describe('RelayReferenceMarker', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      source = RelayRecordSource.create(storeData);
+      source = RelayRecordSource.fromJSON(storeData);
       const references = new Set();
       mark(
         source,
@@ -842,7 +842,7 @@ describe('RelayReferenceMarker', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      source = RelayRecordSource.create(storeData);
+      source = RelayRecordSource.fromJSON(storeData);
       const references = new Set();
       mark(
         source,
@@ -870,7 +870,7 @@ describe('RelayReferenceMarker', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      source = RelayRecordSource.create(storeData);
+      source = RelayRecordSource.fromJSON(storeData);
       const references = new Set();
       mark(
         source,
@@ -964,7 +964,7 @@ describe('RelayReferenceMarker', () => {
           text: 'text',
         },
       };
-      source = RelayRecordSource.create(storeData);
+      source = RelayRecordSource.fromJSON(storeData);
       const references = new Set();
       mark(
         source,
@@ -1015,7 +1015,7 @@ describe('RelayReferenceMarker', () => {
           markup: '<markup/>',
         },
       };
-      source = RelayRecordSource.create(storeData);
+      source = RelayRecordSource.fromJSON(storeData);
       const references = new Set();
       mark(
         source,
@@ -1059,7 +1059,7 @@ describe('RelayReferenceMarker', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      source = RelayRecordSource.create(storeData);
+      source = RelayRecordSource.fromJSON(storeData);
       const references = new Set();
       mark(
         source,
@@ -1113,7 +1113,7 @@ describe('RelayReferenceMarker', () => {
           markup: '<markup/>',
         },
       };
-      source = RelayRecordSource.create(storeData);
+      source = RelayRecordSource.fromJSON(storeData);
       const references = new Set();
       mark(
         source,
@@ -1156,7 +1156,7 @@ describe('RelayReferenceMarker', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      source = RelayRecordSource.create(storeData);
+      source = RelayRecordSource.fromJSON(storeData);
       const references = new Set();
       mark(
         source,
@@ -1196,7 +1196,7 @@ describe('RelayReferenceMarker', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      source = RelayRecordSource.create(storeData);
+      source = RelayRecordSource.fromJSON(storeData);
       const references = new Set();
       mark(
         source,
@@ -1258,7 +1258,7 @@ describe('RelayReferenceMarker', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      const recordSource = RelayRecordSource.create(storeData);
+      const recordSource = RelayRecordSource.fromJSON(storeData);
       const references = new Set();
       mark(
         recordSource,
@@ -1284,7 +1284,7 @@ describe('RelayReferenceMarker', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      const recordSource = RelayRecordSource.create(storeData);
+      const recordSource = RelayRecordSource.fromJSON(storeData);
       const references = new Set();
       mark(
         recordSource,
@@ -1339,7 +1339,7 @@ describe('RelayReferenceMarker', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      const recordSource = RelayRecordSource.create(storeData);
+      const recordSource = RelayRecordSource.fromJSON(storeData);
       const references = new Set();
       mark(
         recordSource,
@@ -1365,7 +1365,7 @@ describe('RelayReferenceMarker', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      const recordSource = RelayRecordSource.create(storeData);
+      const recordSource = RelayRecordSource.fromJSON(storeData);
       const references = new Set();
       mark(
         recordSource,

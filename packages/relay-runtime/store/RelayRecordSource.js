@@ -13,8 +13,13 @@
 'use strict';
 
 const RelayRecordSourceMapImpl = require('./RelayRecordSourceMapImpl');
+const RelayModernRecord = require('./RelayModernRecord');
 
-import type {MutableRecordSource, RecordMap} from './RelayStoreTypes';
+import type {
+  MutableRecordSource,
+  RecordMap,
+  RecordObj,
+} from './RelayStoreTypes';
 
 class RelayRecordSource {
   constructor(records?: RecordMap): MutableRecordSource {
@@ -23,6 +28,18 @@ class RelayRecordSource {
 
   static create(records?: RecordMap): MutableRecordSource {
     return new RelayRecordSourceMapImpl(records);
+  }
+
+  static fromJSON(records: {
+    [dataId: string]: ?RecordObj,
+    ...,
+  }): MutableRecordSource {
+    const obj: RecordMap = {};
+    for (const key in records) {
+      const value = records[key];
+      obj[key] = value ? RelayModernRecord.fromObj(value) : value;
+    }
+    return new RelayRecordSourceMapImpl(obj);
   }
 }
 

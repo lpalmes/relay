@@ -58,6 +58,8 @@ export type OperationTracker = RelayOperationTracker;
  */
 export opaque type Record = {[key: string]: mixed, ...};
 
+export type RecordObj = {[key: string]: mixed, ...};
+
 /**
  * A collection of records keyed by id.
  */

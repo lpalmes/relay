@@ -14,6 +14,7 @@
 'use strict';
 
 import type {IEnvironment, RecordSource} from '../store/RelayStoreTypes';
+import RelayModernRecord from './RelayModernRecord';
 
 type InspectFn = (environment: IEnvironment, dataID?: ?string) => mixed;
 
@@ -134,29 +135,26 @@ if (__DEV__) {
     if (record == null) {
       return record;
     }
-    return new Proxy(
-      {...record},
-      {
-        get(target, prop) {
-          const value = target[prop];
-          if (value == null) {
-            return value;
-          }
-          if (typeof value === 'object') {
-            if (typeof value.__ref === 'string') {
-              return getWrappedRecord(source, value.__ref);
-            }
-            if (Array.isArray(value.__refs)) {
-              /* $FlowFixMe(>=0.111.0) This comment suppresses an error found
-               * when Flow v0.111.0 was deployed. To see the error, delete this
-               * comment and run Flow. */
-              return value.__refs.map(ref => getWrappedRecord(source, ref));
-            }
-          }
+    return new Proxy(RelayModernRecord.clone(record), {
+      get(target, prop) {
+        const value = RelayModernRecord.getValue(target, prop);
+        if (value == null) {
           return value;
-        },
+        }
+        if (typeof value === 'object') {
+          if (typeof value.__ref === 'string') {
+            return getWrappedRecord(source, value.__ref);
+          }
+          if (Array.isArray(value.__refs)) {
+            /* $FlowFixMe(>=0.111.0) This comment suppresses an error found
+             * when Flow v0.111.0 was deployed. To see the error, delete this
+             * comment and run Flow. */
+            return value.__refs.map(ref => getWrappedRecord(source, ref));
+          }
+        }
+        return value;
       },
-    );
+    });
   };
 
   inspect = (environment: IEnvironment, dataID: ?string) => {

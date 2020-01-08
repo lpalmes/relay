@@ -118,7 +118,7 @@ describe('check()', () => {
   });
 
   it('reads query data', () => {
-    const source = RelayRecordSource.create(sampleData);
+    const source = RelayRecordSource.fromJSON(sampleData);
     const target = RelayRecordSource.create();
     const status = check(
       source,
@@ -171,7 +171,7 @@ describe('check()', () => {
         uri: 'https://...',
       },
     };
-    const source = RelayRecordSource.create(data);
+    const source = RelayRecordSource.fromJSON(data);
     const target = RelayRecordSource.create();
     const {BarFragment} = generateAndCompile(`
       fragment BarFragment on User @argumentDefinitions(
@@ -230,7 +230,7 @@ describe('check()', () => {
         uri: 'https://...',
       },
     };
-    const source = RelayRecordSource.create(data);
+    const source = RelayRecordSource.fromJSON(data);
     const target = RelayRecordSource.create();
     const {Fragment} = generateAndCompile(`
       fragment Fragment on User {
@@ -336,7 +336,7 @@ describe('check()', () => {
           text: 'text',
         },
       };
-      const source = RelayRecordSource.create(storeData);
+      const source = RelayRecordSource.fromJSON(storeData);
       const target = RelayRecordSource.create();
       const status = check(
         source,
@@ -394,7 +394,7 @@ describe('check()', () => {
           markup: '<markup/>',
         },
       };
-      const source = RelayRecordSource.create(storeData);
+      const source = RelayRecordSource.fromJSON(storeData);
       const target = RelayRecordSource.create();
       const status = check(
         source,
@@ -440,7 +440,7 @@ describe('check()', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      const source = RelayRecordSource.create(storeData);
+      const source = RelayRecordSource.fromJSON(storeData);
       const target = RelayRecordSource.create();
       const status = check(
         source,
@@ -496,7 +496,7 @@ describe('check()', () => {
           markup: '<markup/>',
         },
       };
-      const source = RelayRecordSource.create(storeData);
+      const source = RelayRecordSource.fromJSON(storeData);
       const target = RelayRecordSource.create();
       const status = check(
         source,
@@ -542,7 +542,7 @@ describe('check()', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      const source = RelayRecordSource.create(storeData);
+      const source = RelayRecordSource.fromJSON(storeData);
       const target = RelayRecordSource.create();
       const status = check(
         source,
@@ -586,7 +586,7 @@ describe('check()', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      const source = RelayRecordSource.create(storeData);
+      const source = RelayRecordSource.fromJSON(storeData);
       const target = RelayRecordSource.create();
       const status = check(
         source,
@@ -620,7 +620,7 @@ describe('check()', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      const source = RelayRecordSource.create(storeData);
+      const source = RelayRecordSource.fromJSON(storeData);
       const target = RelayRecordSource.create();
       const status = check(
         source,
@@ -653,7 +653,7 @@ describe('check()', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      const source = RelayRecordSource.create(storeData);
+      const source = RelayRecordSource.fromJSON(storeData);
       const target = RelayRecordSource.create();
       const status = check(
         source,
@@ -753,7 +753,7 @@ describe('check()', () => {
           text: 'text',
         },
       };
-      const source = RelayRecordSource.create(storeData);
+      const source = RelayRecordSource.fromJSON(storeData);
       const target = RelayRecordSource.create();
       const status = check(
         source,
@@ -809,7 +809,7 @@ describe('check()', () => {
           markup: '<markup/>',
         },
       };
-      const source = RelayRecordSource.create(storeData);
+      const source = RelayRecordSource.fromJSON(storeData);
       const target = RelayRecordSource.create();
       const status = check(
         source,
@@ -853,7 +853,7 @@ describe('check()', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      const source = RelayRecordSource.create(storeData);
+      const source = RelayRecordSource.fromJSON(storeData);
       const target = RelayRecordSource.create();
       const status = check(
         source,
@@ -907,7 +907,7 @@ describe('check()', () => {
           markup: '<markup/>',
         },
       };
-      const source = RelayRecordSource.create(storeData);
+      const source = RelayRecordSource.fromJSON(storeData);
       const target = RelayRecordSource.create();
       const status = check(
         source,
@@ -951,7 +951,7 @@ describe('check()', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      const source = RelayRecordSource.create(storeData);
+      const source = RelayRecordSource.fromJSON(storeData);
       const target = RelayRecordSource.create();
       const status = check(
         source,
@@ -993,7 +993,7 @@ describe('check()', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      const source = RelayRecordSource.create(storeData);
+      const source = RelayRecordSource.fromJSON(storeData);
       const target = RelayRecordSource.create();
       const status = check(
         source,
@@ -1045,7 +1045,7 @@ describe('check()', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      const source = RelayRecordSource.create(storeData);
+      const source = RelayRecordSource.fromJSON(storeData);
       const target = RelayRecordSource.create();
       const status = check(
         source,
@@ -1077,7 +1077,7 @@ describe('check()', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      const source = RelayRecordSource.create(storeData);
+      const source = RelayRecordSource.fromJSON(storeData);
       const target = RelayRecordSource.create();
       const status = check(
         source,
@@ -1135,7 +1135,7 @@ describe('check()', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      const source = RelayRecordSource.create(storeData);
+      const source = RelayRecordSource.fromJSON(storeData);
       const target = RelayRecordSource.create();
       const status = check(
         source,
@@ -1173,7 +1173,7 @@ describe('check()', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      const source = RelayRecordSource.create(storeData);
+      const source = RelayRecordSource.fromJSON(storeData);
       const target = RelayRecordSource.create();
       const status = check(
         source,
@@ -1194,7 +1194,7 @@ describe('check()', () => {
 
   describe('when the data is complete', () => {
     it('returns available', () => {
-      const source = RelayRecordSource.create(sampleData);
+      const source = RelayRecordSource.fromJSON(sampleData);
       const target = RelayRecordSource.create();
       const status = check(
         source,
@@ -1228,7 +1228,7 @@ describe('check()', () => {
         },
         // missing profilePicture record
       };
-      const source = RelayRecordSource.create(data);
+      const source = RelayRecordSource.fromJSON(data);
       const target = RelayRecordSource.create();
       const {BarFragment} = generateAndCompile(`
         fragment BarFragment on User @argumentDefinitions(
@@ -1271,7 +1271,7 @@ describe('check()', () => {
           // missing 'uri'
         },
       };
-      const source = RelayRecordSource.create(data);
+      const source = RelayRecordSource.fromJSON(data);
       const target = RelayRecordSource.create();
       const {BarFragment} = generateAndCompile(`
         fragment BarFragment on User @argumentDefinitions(
@@ -1315,7 +1315,7 @@ describe('check()', () => {
           // missing 'uri'
         },
       };
-      const source = RelayRecordSource.create(data);
+      const source = RelayRecordSource.fromJSON(data);
       const target = RelayRecordSource.create();
       const {BarFragment} = generateAndCompile(`
         fragment BarFragment on User @argumentDefinitions(
@@ -1419,7 +1419,7 @@ describe('check()', () => {
           },
           'hometown-deleted': null,
         };
-        const source = RelayRecordSource.create(data);
+        const source = RelayRecordSource.fromJSON(data);
         const target = RelayRecordSource.create();
         const {UserFragment} = generateAndCompile(`
           fragment UserFragment on User {
@@ -1560,7 +1560,7 @@ describe('check()', () => {
           },
           'screenname-deleted': null,
         };
-        const source = RelayRecordSource.create(data);
+        const source = RelayRecordSource.fromJSON(data);
         const target = RelayRecordSource.create();
         const {UserFragment} = generateAndCompile(`
           fragment UserFragment on User {
@@ -1618,7 +1618,7 @@ describe('check()', () => {
           uri: 'thebestimage.uri',
         },
       };
-      const source = RelayRecordSource.create(data);
+      const source = RelayRecordSource.fromJSON(data);
       const target = RelayRecordSource.create();
       const {BarFragment} = generateAndCompile(`
         fragment BarFragment on User @argumentDefinitions(
@@ -1690,7 +1690,7 @@ describe('check()', () => {
           'profilePicture(size:32)': {__ref: 'client:3'},
         },
       };
-      const source = RelayRecordSource.create(data);
+      const source = RelayRecordSource.fromJSON(data);
       const target = RelayRecordSource.create();
       const {BarFragment} = generateAndCompile(`
         fragment BarFragment on User @argumentDefinitions(
@@ -1772,7 +1772,7 @@ describe('check()', () => {
   describe('when individual records have been invalidated', () => {
     describe('when data is complete', () => {
       it('returns correct invalidation epoch in result when record was invalidated', () => {
-        const source = RelayRecordSource.create(sampleData);
+        const source = RelayRecordSource.fromJSON(sampleData);
         const target = RelayRecordSource.create();
         const environment = createMockEnvironment({
           store: new RelayModernStore(source),
@@ -1809,7 +1809,7 @@ describe('check()', () => {
       });
 
       it('returns correct invalidation epoch in result when multiple records invalidated at different times', () => {
-        const source = RelayRecordSource.create(sampleData);
+        const source = RelayRecordSource.fromJSON(sampleData);
         const target = RelayRecordSource.create();
         const environment = createMockEnvironment({
           store: new RelayModernStore(source),
@@ -1888,7 +1888,7 @@ describe('check()', () => {
       });
 
       it('returns correct invalidation epoch in result when record was invalidated', () => {
-        const source = RelayRecordSource.create(sampleData);
+        const source = RelayRecordSource.fromJSON(sampleData);
         const target = RelayRecordSource.create();
         const environment = createMockEnvironment({
           store: new RelayModernStore(source),
@@ -1925,7 +1925,7 @@ describe('check()', () => {
       });
 
       it('returns correct invalidation epoch in result when multiple records invalidated at different times', () => {
-        const source = RelayRecordSource.create(sampleData);
+        const source = RelayRecordSource.fromJSON(sampleData);
         const target = RelayRecordSource.create();
         const environment = createMockEnvironment({
           store: new RelayModernStore(source),
@@ -2014,7 +2014,7 @@ describe('check()', () => {
             // uri is missing
           },
         };
-        const source = RelayRecordSource.create(sampleData);
+        const source = RelayRecordSource.fromJSON(sampleData);
         const target = RelayRecordSource.create();
         const environment = createMockEnvironment({
           store: new RelayModernStore(source),
@@ -2077,7 +2077,7 @@ describe('check()', () => {
         name: 'Alice',
       },
     };
-    const source = RelayRecordSource.create(data);
+    const source = RelayRecordSource.fromJSON(data);
     const target = RelayRecordSource.create();
     const status = check(
       source,
@@ -2121,7 +2121,7 @@ describe('check()', () => {
         // no `id` value
       },
     };
-    const source = RelayRecordSource.create(data);
+    const source = RelayRecordSource.fromJSON(data);
     const target = RelayRecordSource.create();
     const status = check(
       source,
