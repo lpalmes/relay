@@ -53,10 +53,16 @@ function assertIsDeeplyFrozen(value: ?{...} | ?$ReadOnlyArray<{...}>) {
 }
 
 [
-  [(data: any) => RelayRecordSource.fromJSON(data), 'Map'],
   [
-    (data: any) =>
-      RelayOptimisticRecordSource.create(RelayRecordSource.fromJSON(data)),
+    (data: ?{[dataId: string]: ?{[key: string]: mixed, ...}, ...}) =>
+      data ? RelayRecordSource.fromJSON(data) : RelayRecordSource.create(),
+    'Map',
+  ],
+  [
+    (data: ?{[dataId: string]: ?{[key: string]: mixed, ...}, ...}) =>
+      data
+        ? RelayOptimisticRecordSource.create(RelayRecordSource.fromJSON(data))
+        : RelayOptimisticRecordSource.create(RelayRecordSource.create()),
     'Optimistic',
   ],
 ].forEach(([getRecordSourceImplementation, ImplementationName]) => {
@@ -889,7 +895,9 @@ function assertIsDeeplyFrozen(value: ?{...} | ?$ReadOnlyArray<{...}>) {
           if (!record) {
             throw new Error('Expected to find record with id client:1');
           }
-          expect(record[INVALIDATED_AT_KEY]).toEqual(1);
+          expect(
+            RelayModernRecord.getValue(record, INVALIDATED_AT_KEY),
+          ).toEqual(1);
           expect(store.check(owner)).toEqual('stale');
         });
 
@@ -925,7 +933,9 @@ function assertIsDeeplyFrozen(value: ?{...} | ?$ReadOnlyArray<{...}>) {
           if (!record) {
             throw new Error('Expected to find record with id "4"');
           }
-          expect(record[INVALIDATED_AT_KEY]).toEqual(1);
+          expect(
+            RelayModernRecord.getValue(record, INVALIDATED_AT_KEY),
+          ).toEqual(1);
           expect(store.check(owner)).toEqual('stale');
         });
       });

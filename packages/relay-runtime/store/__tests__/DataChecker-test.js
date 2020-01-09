@@ -28,6 +28,8 @@ const {
   generateAndCompile,
 } = require('relay-test-utils-internal');
 
+import type {Record} from '../RelayStoreTypes';
+
 function getEmptyConnectionEvents() {
   return null;
 }
@@ -1638,7 +1640,7 @@ describe('check()', () => {
         [
           {
             kind: 'scalar',
-            handle: (field, record, argValues) => {
+            handle: (field, record: ?Record, argValues) => {
               if (
                 record &&
                 RelayModernRecord.getDataID(record) === '1' &&
@@ -1650,7 +1652,7 @@ describe('check()', () => {
           },
           {
             kind: 'linked',
-            handle: (field, record, argValues) => {
+            handle: (field, record: ?Record, argValues) => {
               const id = record && RelayModernRecord.getDataID(record);
               if (
                 field.name === 'profilePicture' &&

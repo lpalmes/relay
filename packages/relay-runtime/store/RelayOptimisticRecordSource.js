@@ -13,6 +13,7 @@
 'use strict';
 
 const RelayRecordSource = require('./RelayRecordSource');
+const RelayModernRecord = require('./RelayModernRecord');
 
 import type {DataID} from '../util/RelayRuntimeTypes';
 import type {RecordState} from './RelayRecordState';
@@ -22,9 +23,12 @@ import type {
   RecordSource,
 } from './RelayStoreTypes';
 
-const UNPUBLISH_RECORD_SENTINEL = Object.freeze({
-  __UNPUBLISH_RECORD_SENTINEL: true,
-});
+const UNPUBLISH_RECORD_SENTINEL = RelayModernRecord.create('', '');
+RelayModernRecord.setValue(
+  UNPUBLISH_RECORD_SENTINEL,
+  '__UNPUBLISH_RECORD_SENTINEL',
+  true,
+);
 
 /**
  * An implementation of MutableRecordSource that represents a base RecordSource
