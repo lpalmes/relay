@@ -37,20 +37,20 @@ describe('RelayModernRecord', () => {
 
   describe('copyFields()', () => {
     it('copies fields', () => {
-      const sink = {
+      const sink = RelayModernRecord.fromObj({
         [ID_KEY]: '4',
         [TYPENAME_KEY]: 'User',
-      };
-      const source = {
+      });
+      const source = RelayModernRecord.fromObj({
         [ID_KEY]: '__4',
         [TYPENAME_KEY]: '__User',
         name: 'Zuck',
         pet: {[REF_KEY]: 'beast'},
         pets: {[REFS_KEY]: ['beast']},
-      };
-      deepFreeze(source);
+      });
+      RelayModernRecord.freeze(source);
       RelayModernRecord.copyFields(source, sink);
-      expect(sink).toEqual({
+      expect(RelayModernRecord.toObj(sink)).toEqual({
         [ID_KEY]: '4',
         [TYPENAME_KEY]: 'User',
         name: 'Zuck',

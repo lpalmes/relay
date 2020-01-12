@@ -12,7 +12,7 @@
 
 const RelayModernRecord = require('../RelayModernRecord');
 const RelayModernTestUtils = require('relay-test-utils-internal');
-const RelayRecordSourceMapImpl = require('../RelayRecordSourceMapImpl');
+const RelayRecordSource = require('../RelayRecordSource');
 
 const defaultGetDataID = require('../defaultGetDataID');
 
@@ -91,7 +91,7 @@ describe('RelayResponseNormalizer', () => {
         },
       },
     };
-    const recordSource = new RelayRecordSourceMapImpl();
+    const recordSource = RelayRecordSource.create();
     recordSource.set(ROOT_ID, RelayModernRecord.create(ROOT_ID, ROOT_TYPE));
     normalize(
       recordSource,
@@ -197,7 +197,7 @@ describe('RelayResponseNormalizer', () => {
         },
       },
     };
-    const recordSource = new RelayRecordSourceMapImpl();
+    const recordSource = RelayRecordSource.create();
     recordSource.set(ROOT_ID, RelayModernRecord.create(ROOT_ID, ROOT_TYPE));
     const {fieldPayloads} = normalize(
       recordSource,
@@ -273,7 +273,7 @@ describe('RelayResponseNormalizer', () => {
       },
     };
 
-    const recordSource = new RelayRecordSourceMapImpl();
+    const recordSource = RelayRecordSource.create();
     recordSource.set(ROOT_ID, RelayModernRecord.create(ROOT_ID, ROOT_TYPE));
     let {fieldPayloads} = normalize(
       recordSource,
@@ -391,7 +391,7 @@ describe('RelayResponseNormalizer', () => {
         },
       };
 
-      const recordSource = new RelayRecordSourceMapImpl();
+      const recordSource = RelayRecordSource.create();
       recordSource.set(ROOT_ID, RelayModernRecord.create(ROOT_ID, ROOT_TYPE));
       const {moduleImportPayloads} = normalize(
         recordSource,
@@ -464,7 +464,7 @@ describe('RelayResponseNormalizer', () => {
         },
       };
 
-      const recordSource = new RelayRecordSourceMapImpl();
+      const recordSource = RelayRecordSource.create();
       recordSource.set(ROOT_ID, RelayModernRecord.create(ROOT_ID, ROOT_TYPE));
       const {moduleImportPayloads} = normalize(
         recordSource,
@@ -534,7 +534,7 @@ describe('RelayResponseNormalizer', () => {
         },
       };
 
-      const recordSource = new RelayRecordSourceMapImpl();
+      const recordSource = RelayRecordSource.create();
       recordSource.set(ROOT_ID, RelayModernRecord.create(ROOT_ID, ROOT_TYPE));
       normalize(
         recordSource,
@@ -575,7 +575,7 @@ describe('RelayResponseNormalizer', () => {
         },
       };
 
-      const recordSource = new RelayRecordSourceMapImpl();
+      const recordSource = RelayRecordSource.create();
       recordSource.set(ROOT_ID, RelayModernRecord.create(ROOT_ID, ROOT_TYPE));
       normalize(
         recordSource,
@@ -655,7 +655,7 @@ describe('RelayResponseNormalizer', () => {
         },
       };
 
-      const recordSource = new RelayRecordSourceMapImpl();
+      const recordSource = RelayRecordSource.create();
       recordSource.set(ROOT_ID, RelayModernRecord.create(ROOT_ID, ROOT_TYPE));
       const {moduleImportPayloads} = normalize(
         recordSource,
@@ -725,7 +725,7 @@ describe('RelayResponseNormalizer', () => {
         },
       };
 
-      const recordSource = new RelayRecordSourceMapImpl();
+      const recordSource = RelayRecordSource.create();
       recordSource.set(ROOT_ID, RelayModernRecord.create(ROOT_ID, ROOT_TYPE));
       const {moduleImportPayloads} = normalize(
         recordSource,
@@ -792,7 +792,7 @@ describe('RelayResponseNormalizer', () => {
         },
       };
 
-      const recordSource = new RelayRecordSourceMapImpl();
+      const recordSource = RelayRecordSource.create();
       recordSource.set(ROOT_ID, RelayModernRecord.create(ROOT_ID, ROOT_TYPE));
       normalize(
         recordSource,
@@ -846,7 +846,7 @@ describe('RelayResponseNormalizer', () => {
         },
       };
 
-      const recordSource = new RelayRecordSourceMapImpl();
+      const recordSource = RelayRecordSource.create();
       recordSource.set(ROOT_ID, RelayModernRecord.create(ROOT_ID, ROOT_TYPE));
       const {incrementalPlaceholders} = normalize(
         recordSource,
@@ -895,7 +895,7 @@ describe('RelayResponseNormalizer', () => {
         },
       };
 
-      const recordSource = new RelayRecordSourceMapImpl();
+      const recordSource = RelayRecordSource.create();
       recordSource.set(ROOT_ID, RelayModernRecord.create(ROOT_ID, ROOT_TYPE));
       const {incrementalPlaceholders} = normalize(
         recordSource,
@@ -954,7 +954,7 @@ describe('RelayResponseNormalizer', () => {
         },
       };
 
-      const recordSource = new RelayRecordSourceMapImpl();
+      const recordSource = RelayRecordSource.create();
       recordSource.set(ROOT_ID, RelayModernRecord.create(ROOT_ID, ROOT_TYPE));
       const {incrementalPlaceholders} = normalize(
         recordSource,
@@ -1022,7 +1022,7 @@ describe('RelayResponseNormalizer', () => {
         },
       };
 
-      const recordSource = new RelayRecordSourceMapImpl();
+      const recordSource = RelayRecordSource.create();
       recordSource.set(ROOT_ID, RelayModernRecord.create(ROOT_ID, ROOT_TYPE));
       const {incrementalPlaceholders} = normalize(
         recordSource,
@@ -1104,7 +1104,7 @@ describe('RelayResponseNormalizer', () => {
         },
       };
 
-      const recordSource = new RelayRecordSourceMapImpl();
+      const recordSource = RelayRecordSource.create();
       recordSource.set(ROOT_ID, RelayModernRecord.create(ROOT_ID, ROOT_TYPE));
       const {incrementalPlaceholders} = normalize(
         recordSource,
@@ -1156,7 +1156,7 @@ describe('RelayResponseNormalizer', () => {
         },
       };
 
-      const recordSource = new RelayRecordSourceMapImpl();
+      const recordSource = RelayRecordSource.create();
       recordSource.set(ROOT_ID, RelayModernRecord.create(ROOT_ID, ROOT_TYPE));
       const {incrementalPlaceholders} = normalize(
         recordSource,
@@ -1213,7 +1213,7 @@ describe('RelayResponseNormalizer', () => {
         },
       };
 
-      const recordSource = new RelayRecordSourceMapImpl();
+      const recordSource = RelayRecordSource.create();
       recordSource.set(ROOT_ID, RelayModernRecord.create(ROOT_ID, ROOT_TYPE));
       const {incrementalPlaceholders} = normalize(
         recordSource,
@@ -1276,7 +1276,7 @@ describe('RelayResponseNormalizer', () => {
         },
       };
 
-      const recordSource = new RelayRecordSourceMapImpl();
+      const recordSource = RelayRecordSource.create();
       recordSource.set(ROOT_ID, RelayModernRecord.create(ROOT_ID, ROOT_TYPE));
       const {incrementalPlaceholders} = normalize(
         recordSource,
@@ -1350,7 +1350,7 @@ describe('RelayResponseNormalizer', () => {
         },
       };
 
-      const recordSource = new RelayRecordSourceMapImpl();
+      const recordSource = RelayRecordSource.create();
       recordSource.set(ROOT_ID, RelayModernRecord.create(ROOT_ID, ROOT_TYPE));
       const {incrementalPlaceholders} = normalize(
         recordSource,
@@ -1429,7 +1429,7 @@ describe('RelayResponseNormalizer', () => {
         },
       };
 
-      const recordSource = new RelayRecordSourceMapImpl();
+      const recordSource = RelayRecordSource.create();
       recordSource.set(ROOT_ID, RelayModernRecord.create(ROOT_ID, ROOT_TYPE));
       const {incrementalPlaceholders} = normalize(
         recordSource,
@@ -1492,7 +1492,7 @@ describe('RelayResponseNormalizer', () => {
     };
 
     it('skips client fields not present in the payload but present in the store', () => {
-      const recordSource = new RelayRecordSourceMapImpl({
+      const recordSource = RelayRecordSource.fromJSON({
         '1': {
           __id: '1',
           __typename: 'User',
@@ -1543,7 +1543,7 @@ describe('RelayResponseNormalizer', () => {
     });
 
     it('skips client fields not present in the payload or store', () => {
-      const recordSource = new RelayRecordSourceMapImpl({
+      const recordSource = RelayRecordSource.fromJSON({
         '1': {
           __id: '1',
           __typename: 'User',
@@ -1592,7 +1592,7 @@ describe('RelayResponseNormalizer', () => {
     });
 
     it('ignores linked client fields not present in the payload', () => {
-      const recordSource = new RelayRecordSourceMapImpl({
+      const recordSource = RelayRecordSource.fromJSON({
         '1': {
           __id: '1',
           __typename: 'User',
@@ -1671,7 +1671,7 @@ describe('RelayResponseNormalizer', () => {
     });
 
     it('ignores linked client fields not present in the payload or store', () => {
-      const recordSource = new RelayRecordSourceMapImpl({
+      const recordSource = RelayRecordSource.fromJSON({
         '1': {
           __id: '1',
           __typename: 'User',
@@ -1746,7 +1746,7 @@ describe('RelayResponseNormalizer', () => {
     });
 
     beforeEach(() => {
-      recordSource = new RelayRecordSourceMapImpl();
+      recordSource = RelayRecordSource.create();
       recordSource.set(ROOT_ID, RelayModernRecord.create(ROOT_ID, ROOT_TYPE));
     });
 
@@ -2006,7 +2006,7 @@ describe('RelayResponseNormalizer', () => {
           },
         };
         const expectedData = JSON.parse(JSON.stringify(previousData));
-        recordSource = new RelayRecordSourceMapImpl(previousData);
+        recordSource = RelayRecordSource.fromJSON(previousData);
         normalize(
           recordSource,
           createNormalizationSelector(BarQuery.operation, ROOT_ID, {id: '1'}),
@@ -2160,7 +2160,7 @@ describe('RelayResponseNormalizer', () => {
             id: '2',
           },
         };
-        recordSource = new RelayRecordSourceMapImpl(previousData);
+        recordSource = RelayRecordSource.fromJSON(previousData);
         const expectedData = JSON.parse(JSON.stringify(previousData));
         normalize(
           recordSource,
@@ -2195,7 +2195,7 @@ describe('RelayResponseNormalizer', () => {
             id: '1',
           },
         };
-        recordSource = new RelayRecordSourceMapImpl(data);
+        recordSource = RelayRecordSource.fromJSON(data);
         normalize(
           recordSource,
           createNormalizationSelector(BarQuery.operation, ROOT_ID, {id: '1'}),
@@ -2379,7 +2379,7 @@ describe('RelayResponseNormalizer', () => {
         },
       },
     };
-    const recordSource = new RelayRecordSourceMapImpl();
+    const recordSource = RelayRecordSource.create();
     recordSource.set(ROOT_ID, RelayModernRecord.create(ROOT_ID, ROOT_TYPE));
     expect(() => {
       normalize(
@@ -2416,7 +2416,7 @@ describe('RelayResponseNormalizer', () => {
         name: 'Alice',
       },
     };
-    const recordSource = new RelayRecordSourceMapImpl();
+    const recordSource = RelayRecordSource.create();
     recordSource.set(ROOT_ID, RelayModernRecord.create(ROOT_ID, ROOT_TYPE));
     expect(() => {
       normalize(
@@ -2473,7 +2473,7 @@ describe('RelayResponseNormalizer', () => {
         ],
       },
     };
-    const recordSource = new RelayRecordSourceMapImpl();
+    const recordSource = RelayRecordSource.create();
     recordSource.set(ROOT_ID, RelayModernRecord.create(ROOT_ID, ROOT_TYPE));
     expect(() => {
       normalize(
@@ -2550,7 +2550,7 @@ describe('RelayResponseNormalizer', () => {
         ],
       },
     };
-    const recordSource = new RelayRecordSourceMapImpl();
+    const recordSource = RelayRecordSource.create();
     recordSource.set(ROOT_ID, RelayModernRecord.create(ROOT_ID, ROOT_TYPE));
     expect(() => {
       normalize(
@@ -2594,7 +2594,7 @@ describe('RelayResponseNormalizer', () => {
         firstName: 'Alice',
       },
     };
-    const recordSource = new RelayRecordSourceMapImpl();
+    const recordSource = RelayRecordSource.create();
     recordSource.set(ROOT_ID, RelayModernRecord.create(ROOT_ID, ROOT_TYPE));
     normalize(
       recordSource,

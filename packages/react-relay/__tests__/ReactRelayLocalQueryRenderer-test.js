@@ -14,6 +14,7 @@ const React = require('react');
 const ReactRelayContext = require('../ReactRelayContext');
 const ReactRelayLocalQueryRenderer = require('../ReactRelayLocalQueryRenderer');
 const ReactTestRenderer = require('react-test-renderer');
+const {Record} = require('relay-runtime');
 
 const readContext = require('../readContext');
 
@@ -147,10 +148,12 @@ describe('ReactRelayLocalQueryRenderer', () => {
       environment.commitPayload(operation, payload);
       const instance = renderer(environment, TestQuery, render, variables);
       expect(
-        environment
-          .getStore()
-          .getSource()
-          .get('4'),
+        Record.toObj(
+          environment
+            .getStore()
+            .getSource()
+            .get('4'),
+        ),
       ).toEqual({__id: '4', __typename: 'User', id: '4', lastName: 'Mark'});
       expect(instance.toJSON()).toEqual('Mark');
     });

@@ -22,6 +22,7 @@ const TestRenderer = require('react-test-renderer');
 const invariant = require('invariant');
 const useRefetchableFragmentNodeOriginal = require('../useRefetchableFragmentNode');
 const ReactRelayContext = require('react-relay/ReactRelayContext');
+const {Record} = require('relay-runtime');
 const {
   FRAGMENT_OWNER_KEY,
   FRAGMENTS_KEY,
@@ -2997,7 +2998,7 @@ describe('useRefetchableFragmentNode', () => {
           username: 'usermark',
         };
         const source = newEnvironment.getStore().getSource();
-        expect(source.get('1')).toEqual(dataInSource);
+        expect(Record.toObj(source.get('1'))).toEqual(dataInSource);
 
         // Assert refetch query was retained
         expect(newRelease).not.toBeCalled();
@@ -3068,10 +3069,12 @@ describe('useRefetchableFragmentNode', () => {
           },
         });
         expect(
-          anotherNewEnvironment
-            .getStore()
-            .getSource()
-            .get('1'),
+          Record.toObj(
+            anotherNewEnvironment
+              .getStore()
+              .getSource()
+              .get('1'),
+          ),
         ).toEqual(dataInSource);
       });
     });

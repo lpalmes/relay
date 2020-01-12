@@ -13,7 +13,7 @@
 const ConnectionHandler = require('../ConnectionHandler');
 const ConnectionInterface = require('../ConnectionInterface');
 const RelayModernStore = require('../../../store/RelayModernStore');
-const RelayRecordSourceMapImpl = require('../../../store/RelayRecordSourceMapImpl');
+const RelayRecordSource = require('../../../store/RelayRecordSource');
 const RelayRecordSourceMutator = require('../../../mutations/RelayRecordSourceMutator');
 const RelayRecordSourceProxy = require('../../../mutations/RelayRecordSourceProxy');
 const RelayResponseNormalizer = require('../../../store/RelayResponseNormalizer');
@@ -72,13 +72,13 @@ describe('ConnectionHandler', () => {
   beforeEach(() => {
     jest.resetModules();
 
-    baseSource = new RelayRecordSourceMapImpl({
+    baseSource = RelayRecordSource.fromJSON({
       [ROOT_ID]: {
         [ID_KEY]: ROOT_ID,
         [TYPENAME_KEY]: ROOT_TYPE,
       },
     });
-    sinkSource = new RelayRecordSourceMapImpl({});
+    sinkSource = RelayRecordSource.fromJSON({});
     mutator = new RelayRecordSourceMutator(baseSource, sinkSource);
     proxy = new RelayRecordSourceProxy(mutator, defaultGetDataID);
 
@@ -166,8 +166,8 @@ describe('ConnectionHandler', () => {
       ConnectionHandler.update(proxy, payload);
       const store = new RelayModernStore(baseSource);
       store.publish(sinkSource);
-      baseSource = new RelayRecordSourceMapImpl(baseSource.toJSON());
-      sinkSource = new RelayRecordSourceMapImpl({});
+      baseSource = RelayRecordSource.fromJSON(baseSource.toJSON());
+      sinkSource = RelayRecordSource.fromJSON({});
       mutator = new RelayRecordSourceMutator(baseSource, sinkSource);
       proxy = new RelayRecordSourceProxy(mutator, defaultGetDataID);
 
@@ -295,10 +295,8 @@ describe('ConnectionHandler', () => {
       ConnectionHandler.update(proxy, payload);
       const store = new RelayModernStore(baseSource);
       store.publish(sinkSource);
-      baseSource = new RelayRecordSourceMapImpl(
-        simpleClone(baseSource.toJSON()),
-      );
-      sinkSource = new RelayRecordSourceMapImpl({});
+      baseSource = RelayRecordSource.fromJSON(simpleClone(baseSource.toJSON()));
+      sinkSource = RelayRecordSource.fromJSON({});
       mutator = new RelayRecordSourceMutator(baseSource, sinkSource);
       proxy = new RelayRecordSourceProxy(mutator, defaultGetDataID);
 
@@ -425,10 +423,8 @@ describe('ConnectionHandler', () => {
       ConnectionHandler.update(proxy, payload);
       const store = new RelayModernStore(baseSource);
       store.publish(sinkSource);
-      baseSource = new RelayRecordSourceMapImpl(
-        simpleClone(baseSource.toJSON()),
-      );
-      sinkSource = new RelayRecordSourceMapImpl({});
+      baseSource = RelayRecordSource.fromJSON(simpleClone(baseSource.toJSON()));
+      sinkSource = RelayRecordSource.fromJSON({});
       mutator = new RelayRecordSourceMutator(baseSource, sinkSource);
       proxy = new RelayRecordSourceProxy(mutator, defaultGetDataID);
 
@@ -735,10 +731,10 @@ describe('ConnectionHandler', () => {
         ConnectionHandler.update(proxy, payload);
         const store = new RelayModernStore(baseSource);
         store.publish(sinkSource);
-        baseSource = new RelayRecordSourceMapImpl(
+        baseSource = RelayRecordSource.fromJSON(
           simpleClone(baseSource.toJSON()),
         );
-        sinkSource = new RelayRecordSourceMapImpl({});
+        sinkSource = RelayRecordSource.fromJSON({});
         mutator = new RelayRecordSourceMutator(baseSource, sinkSource);
         proxy = new RelayRecordSourceProxy(mutator, defaultGetDataID);
       });

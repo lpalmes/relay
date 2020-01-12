@@ -29,6 +29,8 @@ const {
 import type {DataID} from '../util/RelayRuntimeTypes';
 import type {Record, RecordObj, RelayModernRecordType} from './RelayStoreTypes';
 
+const __FROZEN__ = '__FROZEN__';
+
 /**
  * @public
  *
@@ -82,7 +84,11 @@ opaque type RecordImpl = Map<string, mixed>;
 function clone(record: Record): Record {
   const r = ((record: any): RecordImpl);
   const newRecord: RecordImpl = new Map();
-  r.forEach((v, k) => newRecord.set(k, v));
+  Array.from(r.entries()).forEach(([k, v]) => {
+    if (k !== __FROZEN__) {
+      newRecord.set(k, v);
+    }
+  });
   return ((newRecord: any): Record);
 }
 
@@ -99,7 +105,7 @@ function clone(record: Record): Record {
 function copyFields(sourceOriginal: Record, sinkOriginal: Record): void {
   const source = ((sourceOriginal: any): RecordImpl);
   const sink = ((sinkOriginal: any): RecordImpl);
-  source.forEach((v, k) => {
+  Array.from(source.entries()).forEach(([k, v]) => {
     if (source.has(k)) {
       if (k !== ID_KEY && k !== TYPENAME_KEY) {
         sink.set(k, v);
@@ -267,12 +273,12 @@ function update(prevR: Record, nextR: Record): Record {
     );
   }
   let updated: RecordImpl | null = null;
-  const keys = Object.keys(nextRecord);
+  const keys = Array.from(nextRecord.keys());
   for (let ii = 0; ii < keys.length; ii++) {
     const key = keys[ii];
     if (updated || !areEqual(prevRecord.get(key), nextRecord.get(key))) {
-      // updated = updated !== null ? updated : clone(updated);
-      // updated[key] = nextRecord[key];
+      updated = updated !== null ? updated : ((clone(prevR): any): RecordImpl);
+      updated.set(key, nextRecord.get(key));
     }
   }
   return (((updated !== null ? updated : prevRecord): any): Record);
@@ -285,7 +291,7 @@ function update(prevR: Record, nextR: Record): Record {
  * second record will overwrite identical fields in the first record.
  */
 function merge(r1: Record, r2: Record): Record {
-  const record1 = ((r1: any): RecordImpl);
+  const record1 = ((clone(r1): any): RecordImpl);
   const record2 = ((r2: any): RecordImpl);
   if (__DEV__) {
     const prevID = getDataID(r1);
@@ -312,7 +318,22 @@ function merge(r1: Record, r2: Record): Record {
       nextType,
     );
   }
-  return r1;
+
+  Array.from(record2.entries()).forEach(([k, v]) => record1.set(k, v));
+
+  return ((record1: any): Record);
+}
+
+/**
+ * @public
+ *
+ * Prevent modifications to the record. Attempts to call `set*` functions on a
+ * frozen record will fatal at runtime.
+ */
+function isFrozen(record: Record): boolean {
+  const r = ((record: any): RecordImpl);
+  const frozen = r.get(__FROZEN__);
+  return frozen === true;
 }
 
 /**
@@ -322,7 +343,8 @@ function merge(r1: Record, r2: Record): Record {
  * frozen record will fatal at runtime.
  */
 function freeze(record: Record): void {
-  deepFreeze(((record: any): RecordImpl));
+  const r = ((record: any): RecordImpl);
+  r.set(__FROZEN__, true);
 }
 
 /**
@@ -332,6 +354,10 @@ function freeze(record: Record): void {
  */
 function setValue(r: Record, storageKey: string, value: mixed): void {
   const record = ((r: any): RecordImpl);
+  const frozen = record.get(__FROZEN__);
+  if (frozen === true) {
+    throw new TypeError('Cannot mutate frozen record');
+  }
   if (__DEV__) {
     const prevID = getDataID(r);
     if (storageKey === ID_KEY) {
@@ -374,8 +400,8 @@ function setLinkedRecordID(
 ): void {
   const record = ((r: any): RecordImpl);
   // See perf note above for why we aren't using computed property access.
-  const link: RecordImpl = new Map();
-  link.set(REF_KEY, linkedID);
+  const link = {};
+  link[REF_KEY] = linkedID;
   record.set(storageKey, link);
 }
 
@@ -392,22 +418,37 @@ function setLinkedRecordIDs(
   const record = ((r: any): RecordImpl);
   // See perf note above for why we aren't using computed property access.
   const links = {};
-  links.set(REFS_KEY, linkedIDs);
+  links[REFS_KEY] = linkedIDs;
   record.set(storageKey, links);
 }
 
 function fromObj(record: RecordObj): Record {
-  return ((record: any): Record);
+  return ((new Map(Object.entries(record)): any): Record);
 }
 
-function toObj(record: Record): RecordObj {
-  return ((record: any): RecordImpl);
+function toObj(r: ?Record): RecordObj {
+  if (r) {
+    let record = ((r: any): RecordImpl);
+    let obj: RecordObj = {};
+    for (let [k, v] of record) {
+      // We don’t escape the key '__proto__'
+      // which can cause problems on older engines
+      if (k === __FROZEN__) {
+        continue;
+      }
+
+      obj[k] = v;
+    }
+    return obj;
+  }
+  return {};
 }
 
 const RelayModernRecordObjImpl: RelayModernRecordType = {
   clone,
   copyFields,
   create,
+  isFrozen,
   freeze,
   getDataID,
   getInvalidationEpoch,

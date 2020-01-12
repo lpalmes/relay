@@ -65,6 +65,7 @@ export interface RelayModernRecordType {
   copyFields(sourceOriginal: Record, sinkOriginal: Record): void;
   create(dataID: DataID, typeName: string): Record;
   freeze(record: Record): void;
+  isFrozen(record: Record): boolean;
   getDataID(record: Record): DataID;
   getInvalidationEpoch(r: ?Record): ?number;
   getLinkedRecordID(r: Record, storageKey: string): ?DataID;
@@ -81,13 +82,16 @@ export interface RelayModernRecordType {
   ): void;
   update(prevR: Record, nextR: Record): Record;
   fromObj(record: RecordObj): Record;
-  toObj(record: Record): RecordObj;
+  toObj(record: ?Record): RecordObj;
 }
 
 /**
  * A collection of records keyed by id.
  */
+
 export type RecordMap = {[dataID: DataID]: ?Record, ...};
+
+export type RecordMapObj = {[dataID: DataID]: ?RecordObj, ...};
 
 export type FragmentMap = {[key: string]: ReaderFragment, ...};
 
@@ -222,7 +226,7 @@ export interface RecordSource {
   getStatus(dataID: DataID): RecordState;
   has(dataID: DataID): boolean;
   size(): number;
-  toJSON(): {[DataID]: ?Record, ...};
+  toJSON(): {[DataID]: ?RecordObj, ...};
 }
 
 /**

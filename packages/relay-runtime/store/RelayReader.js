@@ -55,7 +55,9 @@ import type {DataID, Variables} from '../util/RelayRuntimeTypes';
 import type {ConnectionReference} from './RelayConnection';
 import type {
   Record,
+  RecordObj,
   RecordSource,
+  RecordMapObj,
   RequestDescriptor,
   SelectorData,
   SingularReaderSelector,
@@ -77,7 +79,7 @@ class RelayReader {
   _isMissingData: boolean;
   _owner: RequestDescriptor;
   _recordSource: RecordSource;
-  _seenRecords: {[dataID: DataID]: ?Record, ...};
+  _seenRecords: RecordMapObj;
   _selector: SingularReaderSelector;
   _variables: Variables;
 
@@ -107,7 +109,7 @@ class RelayReader {
     prevData: ?SelectorData,
   ): ?SelectorData {
     const record = this._recordSource.get(dataID);
-    this._seenRecords[dataID] = record;
+    this._seenRecords[dataID] = RelayModernRecord.toObj(record);
     if (record == null) {
       if (record === undefined) {
         this._isMissingData = true;

@@ -10,10 +10,11 @@
 
 'use strict';
 
-const RelayRecordSourceMapImpl = require('../../store/RelayRecordSourceMapImpl');
 const RelayRecordSourceMutator = require('../../mutations/RelayRecordSourceMutator');
 const RelayRecordState = require('../../store/RelayRecordState');
 const RelayStoreUtils = require('../../store/RelayStoreUtils');
+const RelayRecordSource = require('../../store/RelayRecordSource');
+const RelayModernRecord = require('../../store/RelayModernRecord');
 
 const {simpleClone} = require('relay-test-utils-internal');
 
@@ -75,8 +76,8 @@ describe('RelayRecordSourceMutator', () => {
     backupData = {};
     sinkData = {};
     baseData = simpleClone(initialData);
-    baseSource = new RelayRecordSourceMapImpl(baseData);
-    sinkSource = new RelayRecordSourceMapImpl(sinkData);
+    baseSource = RelayRecordSource.fromJSON(baseData);
+    sinkSource = RelayRecordSource.fromJSON(sinkData);
     mutator = new RelayRecordSourceMutator(baseSource, sinkSource, []);
   });
 
@@ -85,49 +86,49 @@ describe('RelayRecordSourceMutator', () => {
       mutator.create('sea', 'Page');
       mutator.setValue('sea', 'name', 'Seattle');
       const record = mutator.unstable_getRawRecordWithChanges('sea');
-      expect(record).toEqual({
+      expect(RelayModernRecord.toObj(record)).toEqual({
         [ID_KEY]: 'sea',
         [TYPENAME_KEY]: 'Page',
         name: 'Seattle',
       });
-      expect(Object.isFrozen(record)).toBe(true);
+      expect(RelayModernRecord.isFrozen(record)).toBe(true);
     });
 
     it('returns newly created records that are deleted in the base', () => {
       mutator.create('deleted', 'Page');
       mutator.setValue('deleted', 'name', 'Somewhere');
       const record = mutator.unstable_getRawRecordWithChanges('deleted');
-      expect(record).toEqual({
+      expect(RelayModernRecord.toObj(record)).toEqual({
         [ID_KEY]: 'deleted',
         [TYPENAME_KEY]: 'Page',
         name: 'Somewhere',
       });
-      expect(Object.isFrozen(record)).toBe(true);
+      expect(RelayModernRecord.isFrozen(record)).toBe(true);
     });
 
     it('returns updated records', () => {
       mutator.setValue('nyc', 'alias', 'NYC');
       mutator.setValue('nyc', 'timezone', 'EAST');
       const record = mutator.unstable_getRawRecordWithChanges('nyc');
-      expect(record).toEqual({
+      expect(RelayModernRecord.toObj(record)).toEqual({
         [ID_KEY]: 'nyc', // existing field
         [TYPENAME_KEY]: 'Page', // existing field
         name: 'New York', // existing field
         alias: 'NYC', // added
         timezone: 'EAST', // updated
       });
-      expect(Object.isFrozen(record)).toBe(true);
+      expect(RelayModernRecord.isFrozen(record)).toBe(true);
     });
 
     it('returns existing (unmodified) records', () => {
       const record = mutator.unstable_getRawRecordWithChanges('nyc');
-      expect(record).toEqual({
+      expect(RelayModernRecord.toObj(record)).toEqual({
         [ID_KEY]: 'nyc',
         [TYPENAME_KEY]: 'Page',
         name: 'New York',
         timezone: 'East Time Zone',
       });
-      expect(Object.isFrozen(record)).toBe(true);
+      expect(RelayModernRecord.isFrozen(record)).toBe(true);
     });
 
     it('returns undefined for unknown records', () => {
@@ -239,7 +240,7 @@ describe('RelayRecordSourceMutator', () => {
     });
 
     it('copies fields to existing records', () => {
-      const sourceRecord = initialData.sf;
+      const sourceRecord = RelayModernRecord.fromObj(initialData.sf);
       mutator.copyFieldsFromRecord(sourceRecord, 'mpk');
       expect(sinkSource.toJSON()).toEqual({
         mpk: {
@@ -251,11 +252,11 @@ describe('RelayRecordSourceMutator', () => {
     });
 
     it('copies new fields to existing records', () => {
-      const sourceRecord = {
+      const sourceRecord = RelayModernRecord.fromObj({
         [ID_KEY]: 'sf',
         [TYPENAME_KEY]: 'Page',
         state: 'California',
-      };
+      });
       mutator.copyFieldsFromRecord(sourceRecord, 'sf');
       expect(sinkSource.toJSON()).toEqual({
         sf: {
@@ -267,7 +268,7 @@ describe('RelayRecordSourceMutator', () => {
     });
 
     it('copies fields from to a created record', () => {
-      const sourceRecord = initialData.sf;
+      const sourceRecord = RelayModernRecord.fromObj(initialData.sf);
       mutator.create('seattle', 'Page');
       mutator.copyFieldsFromRecord(sourceRecord, 'seattle');
       expect(sinkSource.toJSON()).toEqual({
@@ -374,7 +375,9 @@ describe('RelayRecordSourceMutator', () => {
       const mark = baseSource.get('4');
       mutator.delete('4');
       expect(baseSource.get('4')).toBe(mark);
-      expect(baseSource.get('4')).toEqual(initialData['4']);
+      expect(RelayModernRecord.toObj(baseSource.get('4'))).toEqual(
+        initialData['4'],
+      );
       expect(backupData).toEqual({});
     });
   });

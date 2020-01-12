@@ -18,6 +18,7 @@ const RelayModernStore = require('../RelayModernStore');
 const RelayNetwork = require('../../network/RelayNetwork');
 const RelayObservable = require('../../network/RelayObservable');
 const RelayRecordSource = require('../RelayRecordSource');
+const RelayModernRecord = require('../RelayModernRecord');
 
 const warning = require('warning');
 
@@ -987,7 +988,9 @@ describe('execute() a query with @stream', () => {
 
     expect(next).toBeCalledTimes(1);
     expect(callback).toBeCalledTimes(1);
-    expect(source.get('MessagingParticipant:2')).toEqual({
+    expect(
+      RelayModernRecord.toObj(source.get('MessagingParticipant:2')),
+    ).toEqual({
       __id: 'MessagingParticipant:2',
       __typename: 'MessagingParticipant',
       id: '2',
@@ -1008,7 +1011,7 @@ describe('execute() a query with @stream', () => {
     expect(next).toBeCalledTimes(2);
     expect(callback).toBeCalledTimes(2);
 
-    expect(source.get('3')).toEqual({
+    expect(RelayModernRecord.toObj(source.get('3'))).toEqual({
       __id: '3',
       __typename: 'User',
       id: '3',

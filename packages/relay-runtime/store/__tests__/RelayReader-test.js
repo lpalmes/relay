@@ -83,7 +83,7 @@ describe('RelayReader', () => {
       },
     };
 
-    source = RelayRecordSource.create(data);
+    source = RelayRecordSource.fromJSON(data);
   });
 
   it('reads query data', () => {
@@ -546,7 +546,7 @@ describe('RelayReader', () => {
         'node(id:"1")': {__ref: '1'},
       },
     };
-    source = RelayRecordSource.create(records);
+    source = RelayRecordSource.fromJSON(records);
     const {UserFriends} = generateAndCompile(`
       query UserFriends($id: ID!) {
         node(id: $id) {
@@ -619,7 +619,7 @@ describe('RelayReader', () => {
         node: {__ref: '2'},
       },
     };
-    source = RelayRecordSource.create(records);
+    source = RelayRecordSource.fromJSON(records);
     const {UserFriends} = generateAndCompile(`
       fragment UserFriends on User {
         friends(first: 1) @__clientField(handle: "bestFriends") {
@@ -719,7 +719,7 @@ describe('RelayReader', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      source = RelayRecordSource.create(storeData);
+      source = RelayRecordSource.fromJSON(storeData);
       const owner = createOperationDescriptor(BarQuery, {});
       const {data, seenRecords, isMissingData} = read(
         source,
@@ -772,7 +772,7 @@ describe('RelayReader', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      source = RelayRecordSource.create(storeData);
+      source = RelayRecordSource.fromJSON(storeData);
       const owner = createOperationDescriptor(BarQuery, {});
       const {data, seenRecords, isMissingData} = read(
         source,
@@ -821,7 +821,7 @@ describe('RelayReader', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      source = RelayRecordSource.create(storeData);
+      source = RelayRecordSource.fromJSON(storeData);
       const {data, seenRecords, isMissingData} = read(
         source,
         createReaderSelector(BarFragment, '1', {}),
@@ -851,7 +851,7 @@ describe('RelayReader', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      source = RelayRecordSource.create(storeData);
+      source = RelayRecordSource.fromJSON(storeData);
       const {data, seenRecords, isMissingData} = read(
         source,
         createReaderSelector(BarFragment, '1', {}),
@@ -877,7 +877,7 @@ describe('RelayReader', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      source = RelayRecordSource.create(storeData);
+      source = RelayRecordSource.fromJSON(storeData);
       const {data, seenRecords, isMissingData} = read(
         source,
         createReaderSelector(BarFragment, '1', {}),
@@ -950,7 +950,7 @@ describe('RelayReader', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      source = RelayRecordSource.create(storeData);
+      source = RelayRecordSource.fromJSON(storeData);
       const owner = createOperationDescriptor(BarQuery, {});
       const {data, seenRecords, isMissingData} = read(
         source,
@@ -997,7 +997,7 @@ describe('RelayReader', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      source = RelayRecordSource.create(storeData);
+      source = RelayRecordSource.fromJSON(storeData);
       const owner = createOperationDescriptor(BarQuery, {});
       const {data, seenRecords, isMissingData} = read(
         source,
@@ -1040,7 +1040,7 @@ describe('RelayReader', () => {
           'node(id:"1")': {__ref: '1'},
         },
       };
-      source = RelayRecordSource.create(storeData);
+      source = RelayRecordSource.fromJSON(storeData);
       const owner = createOperationDescriptor(BarQuery, {});
       const {data, seenRecords, isMissingData} = read(
         source,
@@ -1231,7 +1231,7 @@ describe('RelayReader', () => {
           },
         };
 
-        source = RelayRecordSource.create(data);
+        source = RelayRecordSource.fromJSON(data);
       });
 
       it('should have `isMissingData = false` if data is available', () => {
@@ -1497,7 +1497,7 @@ describe('RelayReader', () => {
             'node(id:"1")': {__ref: '1'},
           },
         };
-        source = RelayRecordSource.create(storeData);
+        source = RelayRecordSource.fromJSON(storeData);
         const owner = createOperationDescriptor(UserQuery, {});
         const {data, isMissingData} = read(
           source,
@@ -1548,7 +1548,7 @@ describe('RelayReader', () => {
             'node(id:"1")': {__ref: '1'},
           },
         };
-        source = RelayRecordSource.create(storeData);
+        source = RelayRecordSource.fromJSON(storeData);
         const owner = createOperationDescriptor(UserQuery, {});
         const {data, isMissingData} = read(
           source,
@@ -1592,7 +1592,7 @@ describe('RelayReader', () => {
             'node(id:"1")': {__ref: '1'},
           },
         };
-        source = RelayRecordSource.create(storeData);
+        source = RelayRecordSource.fromJSON(storeData);
         const owner = createOperationDescriptor(UserQuery, {});
         const {data, isMissingData} = read(
           source,

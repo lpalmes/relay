@@ -106,10 +106,10 @@ class RelayOptimisticRecordSource implements MutableRecordSource {
     const merged = {...this._base.toJSON()};
     this._sink.getRecordIDs().forEach(dataID => {
       const record = this.get(dataID);
-      if (record === undefined) {
+      if (record === undefined || record === null) {
         delete merged[dataID];
       } else {
-        merged[dataID] = record;
+        merged[dataID] = RelayModernRecord.toObj(record);
       }
     });
     return merged;

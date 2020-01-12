@@ -29,4 +29,4 @@ import type {RelayModernRecordType} from './RelayStoreTypes';
 const RelayModernRecordObjImpl = require('./RelayModernRecordObjImpl');
 const RelayModernRecordMapImpl = require('./RelayModernRecordMapImpl');
 
-module.exports = RelayModernRecordObjImpl;
+module.exports = RelayModernRecordMapImpl;

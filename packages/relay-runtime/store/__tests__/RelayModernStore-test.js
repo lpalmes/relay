@@ -16,7 +16,6 @@
 const RelayModernRecord = require('../RelayModernRecord');
 const RelayModernStore = require('../RelayModernStore');
 const RelayOptimisticRecordSource = require('../RelayOptimisticRecordSource');
-const RelayRecordSourceMapImpl = require('../RelayRecordSourceMapImpl');
 const RelayRecordSource = require('../RelayRecordSource');
 
 const {getRequest} = require('../../query/GraphQLTag');
@@ -233,7 +232,7 @@ function assertIsDeeplyFrozen(value: ?{...} | ?$ReadOnlyArray<{...}>) {
         for (const id in snapshot.seenRecords) {
           if (snapshot.seenRecords.hasOwnProperty(id)) {
             const record = snapshot.seenRecords[id];
-            expect(record).toBe(data[id]);
+            expect(record).toEqual(data[id]);
           }
         }
       });
@@ -289,7 +288,7 @@ function assertIsDeeplyFrozen(value: ?{...} | ?$ReadOnlyArray<{...}>) {
         for (const id in snapshot.seenRecords) {
           if (snapshot.seenRecords.hasOwnProperty(id)) {
             const record = snapshot.seenRecords[id];
-            expect(record).toBe(data[id]);
+            expect(record).toEqual(data[id]);
           }
         }
       });

@@ -321,6 +321,16 @@ function merge(r1: Record, r2: Record): Record {
  * Prevent modifications to the record. Attempts to call `set*` functions on a
  * frozen record will fatal at runtime.
  */
+function isFrozen(record: Record): boolean {
+  return Object.isFrozen(((record: any): RecordImpl));
+}
+
+/**
+ * @public
+ *
+ * Prevent modifications to the record. Attempts to call `set*` functions on a
+ * frozen record will fatal at runtime.
+ */
 function freeze(record: Record): void {
   deepFreeze(((record: any): RecordImpl));
 }
@@ -397,11 +407,14 @@ function setLinkedRecordIDs(
 }
 
 function fromObj(record: RecordObj): Record {
-  return ((record: any): Record);
+  return (({...record}: any): Record);
 }
 
-function toObj(record: Record): RecordObj {
-  return ((record: any): RecordImpl);
+function toObj(record: ?Record): RecordObj {
+  if (record) {
+    return ((record: any): RecordImpl);
+  }
+  return {};
 }
 
 const RelayModernRecordObjImpl: RelayModernRecordType = {
@@ -409,6 +422,7 @@ const RelayModernRecordObjImpl: RelayModernRecordType = {
   copyFields,
   create,
   freeze,
+  isFrozen,
   getDataID,
   getInvalidationEpoch,
   getLinkedRecordID,

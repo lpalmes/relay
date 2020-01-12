@@ -12,11 +12,10 @@
 'use strict';
 
 const RelayRecordProxy = require('../RelayRecordProxy');
-const RelayRecordSourceMapImpl = require('../../store/RelayRecordSourceMapImpl');
+const RelayRecordSource = require('../../store/RelayRecordSource');
 const RelayRecordSourceMutator = require('../RelayRecordSourceMutator');
 const RelayRecordSourceProxy = require('../RelayRecordSourceProxy');
 const RelayStoreUtils = require('../../store/RelayStoreUtils');
-const RelayRecordSource = require('../../store/RelayRecordSource');
 
 const defaultGetDataID = require('../../store/defaultGetDataID');
 
@@ -81,7 +80,7 @@ describe('RelayRecordSourceProxy', () => {
   beforeEach(() => {
     jest.resetModules();
     baseSource = RelayRecordSource.fromJSON(simpleClone(initialData));
-    sinkSource = new RelayRecordSourceMapImpl({});
+    sinkSource = RelayRecordSource.fromJSON({});
     mutator = new RelayRecordSourceMutator(baseSource, sinkSource, []);
     store = new RelayRecordSourceProxy(mutator, defaultGetDataID);
   });
