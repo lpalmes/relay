@@ -135,7 +135,7 @@ let rec transformValueToObj = (value: value): valueObj => {
   valObj;
 };
 
-module ReasonRecordDict: Record = {
+module RelayModernRecordReason: Record = {
   type record = Js.Dict.t(value);
 
   let clone = r => {

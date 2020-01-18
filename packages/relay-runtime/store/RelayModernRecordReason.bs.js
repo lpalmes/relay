@@ -474,7 +474,7 @@ function fromObj(recordObj) {
   return record;
 }
 
-var ReasonRecordDict = {
+var RelayModernRecordReason = {
   clone: clone,
   copyFields: copyFields,
   create: create,
@@ -500,5 +500,5 @@ exports.isClientID = isClientID;
 exports.Keys = Keys;
 exports.transformValueFromObj = transformValueFromObj;
 exports.transformValueToObj = transformValueToObj;
-exports.ReasonRecordDict = ReasonRecordDict;
+exports.RelayModernRecordReason = RelayModernRecordReason;
 /* warning Not a pure module */

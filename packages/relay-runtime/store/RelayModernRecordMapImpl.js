@@ -211,7 +211,11 @@ function getLinkedRecordIDs(r: Record, storageKey: string): ?Array<?DataID> {
       'of linked IDs, got `%s`.',
     record.get(ID_KEY),
     storageKey,
-    JSON.stringify(links),
+    typeof links === 'object'
+      ? typeof links[REF_KEY] === 'string'
+        ? 'ref:' + links[REF_KEY]
+        : links[REF_KEY]
+      : links,
   );
   // assume items of the array are ids
   return (links[REFS_KEY]: any);

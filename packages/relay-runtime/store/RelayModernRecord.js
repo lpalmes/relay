@@ -28,6 +28,6 @@ const {
 import type {RelayModernRecordType} from './RelayStoreTypes';
 const RelayModernRecordObjImpl = require('./RelayModernRecordObjImpl');
 const RelayModernRecordMapImpl = require('./RelayModernRecordMapImpl');
-const {ReasonRecordDict} = require('./Record.bs');
+const {RelayModernRecordReason} = require('./RelayModernRecordReason.bs');
 
-module.exports = ReasonRecordDict;
+module.exports = RelayModernRecordReason;
