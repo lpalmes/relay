@@ -30,8 +30,4 @@ const RelayModernRecordObjImpl = require('./RelayModernRecordObjImpl');
 const RelayModernRecordMapImpl = require('./RelayModernRecordMapImpl');
 const {ReasonRecordDict} = require('./Record.bs');
 
-module.exports = false
-  ? true
-    ? RelayModernRecordObjImpl
-    : RelayModernRecordMapImpl
-  : ReasonRecordDict;
+module.exports = ReasonRecordDict;
