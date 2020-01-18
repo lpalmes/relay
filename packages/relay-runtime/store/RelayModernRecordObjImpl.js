@@ -199,13 +199,18 @@ function getLinkedRecordIDs(r: Record, storageKey: string): ?Array<?DataID> {
   if (links == null) {
     return links;
   }
+  console.log(links);
   invariant(
     typeof links === 'object' && Array.isArray(links[REFS_KEY]),
     'RelayModernRecord.getLinkedRecordIDs(): Expected `%s.%s` to contain an array ' +
       'of linked IDs, got `%s`.',
     record[ID_KEY],
     storageKey,
-    JSON.stringify(links),
+    typeof links === 'object'
+      ? typeof links[REF_KEY] === 'string'
+        ? 'ref:' + links[REF_KEY]
+        : links[REF_KEY]
+      : links,
   );
   // assume items of the array are ids
   return (links[REFS_KEY]: any);

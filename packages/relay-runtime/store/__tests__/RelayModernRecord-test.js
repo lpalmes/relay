@@ -67,7 +67,7 @@ describe('RelayModernRecord', () => {
     let record;
 
     beforeEach(() => {
-      record = RelayModernRecord.create(4, 'User');
+      record = RelayModernRecord.create('4', 'User');
       RelayModernRecord.setValue(record, 'name', 'Mark');
       RelayModernRecord.setValue(record, 'enemies', null);
       RelayModernRecord.setLinkedRecordID(record, 'hometown', 'mpk');
@@ -101,7 +101,7 @@ describe('RelayModernRecord', () => {
         RelayModernRecord.getLinkedRecordIDs(record, 'name'),
       ).toThrowError(
         'RelayModernRecord.getLinkedRecordIDs(): Expected `4.name` to contain ' +
-          'an array of linked IDs, got `"Mark"`.',
+          'an array of linked IDs, got `Mark`.',
       );
     });
 
@@ -110,7 +110,7 @@ describe('RelayModernRecord', () => {
         RelayModernRecord.getLinkedRecordIDs(record, 'hometown'),
       ).toThrowError(
         'RelayModernRecord.getLinkedRecordIDs(): Expected `4.hometown` to contain ' +
-          'an array of linked IDs, got `{"__ref":"mpk"}`.',
+          'an array of linked IDs, got `ref:mpk`.',
       );
     });
   });
@@ -147,6 +147,7 @@ describe('RelayModernRecord', () => {
       record = RelayModernRecord.create(4, 'User');
       RelayModernRecord.setValue(record, 'name', 'Mark');
       RelayModernRecord.setValue(record, 'blockbusterMembership', null);
+      RelayModernRecord.setValue(record, 'age', undefined);
       RelayModernRecord.setLinkedRecordID(record, 'hometown', 'mpk');
       RelayModernRecord.setLinkedRecordIDs(record, 'friends{"first":10}', [
         'beast',
@@ -162,6 +163,16 @@ describe('RelayModernRecord', () => {
 
     it('returns a scalar value', () => {
       expect(RelayModernRecord.getValue(record, 'name')).toBe('Mark');
+    });
+
+    it('returns null', () => {
+      expect(RelayModernRecord.getValue(record, 'blockbusterMembership')).toBe(
+        null,
+      );
+    });
+
+    it('returns undefined', () => {
+      expect(RelayModernRecord.getValue(record, 'age')).toBe(undefined);
     });
 
     it('returns a (list) scalar value', () => {
@@ -378,6 +389,53 @@ describe('RelayModernRecord', () => {
       expect(() =>
         RelayModernRecord.setValue(record, TYPENAME_KEY, 'not-User'),
       ).not.toWarn();
+    });
+  });
+
+  describe('JSON', () => {
+    it('can convert fromObj', () => {
+      const recordObj = {
+        [ID_KEY]: '4',
+        [TYPENAME_KEY]: 'User',
+        name: 'Mark',
+      };
+
+      const record = RelayModernRecord.fromObj(recordObj);
+      expect(RelayModernRecord.toObj(record)).toEqual(recordObj);
+    });
+
+    it('can handle null values', () => {
+      const storeData = {
+        id: '1',
+        __typename: 'User',
+        'nameRenderer(supported:["PlainUserNameRenderer","MarkdownUserNameRenderer"])': null,
+      };
+
+      const record = RelayModernRecord.fromObj(storeData);
+      expect(RelayModernRecord.toObj(record)).toEqual(storeData);
+    });
+
+    it('can handle undefined values', () => {
+      const storeData = {
+        id: '1',
+        __typename: 'User',
+        uri: undefined,
+      };
+
+      const record = RelayModernRecord.fromObj(storeData);
+      expect(RelayModernRecord.toObj(record)).toEqual(storeData);
+    });
+
+    it('can handle null in refs', () => {
+      const data = {
+        id: 'client:1',
+        __typename: 'FriendsConnection',
+        edges: {
+          __refs: ['client:2', null, 'client:3'],
+        },
+      };
+      const record = RelayModernRecord.fromObj(data);
+      expect(RelayModernRecord.toObj(record)).toEqual(data);
     });
   });
 });

@@ -1966,6 +1966,14 @@ describe('RelayPublishQueue', () => {
 
     it('should warn if run() is called during a run()', () => {
       jest.mock('warning');
+
+      // This dosen't makes sense, but i'm doing this because jest won't find the bucklescript array module while
+      // running RelayPublishQueue.run() async, the array module will not have any exports, so by calling
+      // RelayModernRecord.clone() i make sure the module is already loaded in the moduleRegistry with the proper exports
+      const record = RelayModernRecord.create('2', 'User');
+      const clone = RelayModernRecord.clone(record);
+      // End of code
+
       const source = RelayRecordSource.create();
       const store = new RelayModernStore(source);
       const queue = new RelayPublishQueue(store, null, defaultGetDataID);
