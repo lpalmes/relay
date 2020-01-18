@@ -11,7 +11,6 @@ var Warning = require("warning");
 var Caml_obj = require("bs-platform/lib/js/caml_obj.js");
 var Pervasives = require("bs-platform/lib/js/pervasives.js");
 var Caml_option = require("bs-platform/lib/js/caml_option.js");
-var Caml_builtin_exceptions = require("bs-platform/lib/js/caml_builtin_exceptions.js");
 
 var Warning$1 = { };
 
@@ -90,11 +89,6 @@ function transformValueToObj(value) {
     }
   } else {
     switch (value.tag | 0) {
-      case /* String */0 :
-      case /* Int */1 :
-      case /* Float */2 :
-      case /* Bool */3 :
-          return value[0];
       case /* Ref */4 :
           var obj = { };
           obj[ref_key] = value[0];
@@ -103,11 +97,12 @@ function transformValueToObj(value) {
           var obj$1 = { };
           obj$1[refs_key] = value[0];
           return obj$1;
+      case /* String */0 :
+      case /* Int */1 :
+      case /* Float */2 :
+      case /* Bool */3 :
       case /* Custom */6 :
-          var v = value[0];
-          console.log(v);
-          console.log("custom element");
-          return v;
+          return value[0];
       case /* Array */7 :
           return $$Array.map(transformValueToObj, value[0]);
       
@@ -374,21 +369,10 @@ function update(a, b) {
               Caml_option.valFromOption(match)[k] = v;
               return /* () */0;
             } else {
-              record.contents = Caml_option.some(clone(a));
-              var match$1 = record.contents;
-              if (match$1 !== undefined) {
-                Caml_option.valFromOption(match$1)[k] = v;
-                return /* () */0;
-              } else {
-                throw [
-                      Caml_builtin_exceptions.match_failure,
-                      /* tuple */[
-                        "Record.re",
-                        301,
-                        17
-                      ]
-                    ];
-              }
+              var newRecord = clone(a);
+              newRecord[k] = v;
+              record.contents = Caml_option.some(newRecord);
+              return /* () */0;
             }
           } else {
             return 0;

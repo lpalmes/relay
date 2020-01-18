@@ -116,10 +116,7 @@ let rec transformValueToObj = (value: value): valueObj => {
   let valObj: valueObj =
     switch (value) {
     | Array(arr) => arr |> Array.map(transformValueToObj) |> Obj.magic
-    | Custom(v) =>
-      Js.log(v);
-      Js.log("custom element");
-      v |> Obj.magic;
+    | Custom(v) => v |> Obj.magic
     | String(v) => v |> Obj.magic
     | Bool(v) => v |> Obj.magic
     | Int(v) => v |> Obj.magic
@@ -297,9 +294,9 @@ module ReasonRecordDict: Record = {
              || Js.Dict.get(a, k) != Js.Dict.get(b, k)) {
            switch (record.contents) {
            | None =>
-             record.contents = Some(clone(a));
-             let Some(r) = record.contents;
-             Js.Dict.set(r, k, v);
+             let newRecord = clone(a);
+             Js.Dict.set(newRecord, k, v);
+             record := Some(newRecord);
            | Some(r) => Js.Dict.set(r, k, v)
            };
          }
